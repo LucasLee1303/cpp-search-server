@@ -23,12 +23,11 @@ string helper(string a, string b)
 }
 string AddStopWords(const string& query, const set<string>& stop_words)
 {
-    string Newstring = accumulate(stop_words.begin(), stop_words.end(), query, helper);
     if (stop_words.empty())
     {
         return query;
     }
-   
+    string Newstring = accumulate(stop_words.begin(), stop_words.end(), query, helper);
     return Newstring;
 }
 
