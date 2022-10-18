@@ -99,6 +99,9 @@ int ComputeAverageRating(const vector<int>& ratings)
 	}
 	int rating_size = ratings.size();
 	return rating_sum / rating_size;
+	// static_cast позволяет привести значение к типу int
+    // без использования дополнительной переменной
+    //return rating_sum / static_cast<int>(ratings.size());
 }
 
 class SearchServer {
