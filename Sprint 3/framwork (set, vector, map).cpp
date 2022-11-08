@@ -34,7 +34,7 @@ void Print(ostream& out, const Element& container) {
         is_first = false;
         out << element;
     }
-    return;
+    return out;
 }
 
 template <typename Element>
