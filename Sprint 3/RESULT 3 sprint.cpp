@@ -675,12 +675,11 @@ void TestRelevanceAccuracy() {
         ASSERT(found_docs.size() == 3);
 
         ASSERT(found_docs[0].id == doc_id_1);
-        ///14. в первом блоке формулу использовали. а здесь также стоит сделать с формулой___ Исправила
-        ASSERT(abs(found_docs[0].relevance - (log((3 * 1.0) / 1) + log((3 * 1.0) / 2)) / 6) < 1e-6);     // работает
+        ASSERT(abs(found_docs[0].relevance - (log((3 * 1.0) / 1) + log((3 * 1.0) / 2)) / 6) < 1e-6);
         ASSERT(found_docs[1].id == doc_id_2);
-        ASSERT(abs(found_docs[1].relevance - log((3 * 1.0) / 2) * (1.0 / 4.0) / 1.5) < 1e-6); //работает
+        ASSERT(abs(found_docs[1].relevance - log((3 * 1.0) / 2) * (1.0 / 4.0) / 1.5) < 1e-6);
         ASSERT(found_docs[2].id == doc_id_3);
-        ASSERT(abs(found_docs[2].relevance - log (1) / 6) < 1e-6);//работает
+        ASSERT(abs(found_docs[2].relevance - log (1) / 6) < 1e-6);
 
     }
 
