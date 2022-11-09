@@ -440,31 +440,12 @@ void TestExcludeStopWordsFromAddedDocumentContent() {
     }
 }
 
-/*
-1. тест на добавление документов можно было бы организовать проще - используя метод, который возвращает количество документов!___Исправила
-*/
+
 void TestDocumentsAdding() {
     const int doc_id = 42;
     const string content = "cat in the city"s;
     const vector<int> ratings = { 1, 2, 3 };
 
-    //Было
-   /* {
-        SearchServer server;
-        server.AddDocument(doc_id, content, DocumentStatus::ACTUAL, ratings);
-        const auto found_docs = server.FindTopDocuments("cat"s);
-        ASSERT(found_docs.size() == 1);
-        const Document& doc0 = found_docs[0];
-        ASSERT(doc0.id == doc_id);
-    }
-    {
-        SearchServer server;
-        server.AddDocument(doc_id, content, DocumentStatus::ACTUAL, ratings);
-        const auto found_docs = server.FindTopDocuments("dog near red town"s);
-        ASSERT(found_docs.empty());
-    }
-    */
-    //Стало
     {
         SearchServer server;
         ASSERT_EQUAL(server.GetDocumentCount(), 0);
@@ -480,33 +461,6 @@ void TestDocumentsAdding() {
 
 }
 
-/*2. у вас же есть уже реализация на исключение стоп слов!___Убрала тест__Исправила*/
-/*
-void TestStopWordsSupporting() {
-    const int doc_id = 42;
-    const string content = "cat in the city"s;
-    const string stop_words = "in the"s;
-    const vector<int> ratings = { 1, 2, 3 };
-
-    {
-        SearchServer server;
-        server.SetStopWords(stop_words);
-        server.AddDocument(doc_id, content, DocumentStatus::ACTUAL, ratings);
-        ASSERT(server.FindTopDocuments("in the town"s).empty());
-    }
-
-    {
-        SearchServer server;
-        server.SetStopWords(stop_words);
-        server.AddDocument(doc_id, content, DocumentStatus::ACTUAL, ratings);
-        const auto found_docs = server.FindTopDocuments("in the city"s);
-        ASSERT(found_docs.size() == 1);
-        const Document& doc0 = found_docs[0];
-        ASSERT(doc0.id == doc_id);
-    }
-
-}
-*/
 void TestMinusWordsSupporting() {
     const int doc_id = 42;
     const string content = "cat in the city"s;
@@ -540,13 +494,11 @@ void TestMatching() {
         SearchServer server;
         server.AddDocument(doc_id, content, DocumentStatus::ACTUAL, ratings);
         auto [matched_words, doc_status] = server.MatchDocument("dog in the big city"s, doc_id);
-        //3. v, ds - стоит делать более информативные наименования переменных, не ленитесь с этим. через пару недель будет трудно вспомнить, что подразумевали под данными переменными
         ASSERT(matched_words.size() == 3);
-        //4. проверка на матчинг - это не только количество слов, стоит сравнить и наборы слов___Исправила
-        
-       
+  
     }
-    //сделала так
+    //если два блока (ниже и выше которые) совместить, то будет идеально. 
+    //В блоке выше есть проверка на количество слов, но нет проверки на сравнение контейнеров со словами, а в блоке ниже наоборот
    {
         SearchServer server;
         server.SetStopWords("in the"s);
@@ -593,38 +545,10 @@ void TestRelevanceSorting() {
         ASSERT(found_docs[2].id == doc_id_1);
 
     }
-    /*5. достаточно одного блока для проверки!___Убрала блок___Исправила*/
-    /* {
-        const int doc_id_1 = 52;
-        const string content_1 = "cat fox dog in the city"s;
-        const vector<int> ratings_1 = { 1, 2, 3 };
-
-        const int doc_id_2 = 53;
-        const string content_2 = "fox dog the city city city"s;
-        const vector<int> ratings_2 = { 4, 5, 6 };
-
-        const int doc_id_3 = 54;
-        const string content_3 = "dog in the city city city"s;
-        const vector<int> ratings_3 = { 2, 4, 2 };
-
-        SearchServer server;
-        server.AddDocument(doc_id_1, content_1, DocumentStatus::ACTUAL, ratings_1);
-        server.AddDocument(doc_id_2, content_2, DocumentStatus::ACTUAL, ratings_2);
-        server.AddDocument(doc_id_3, content_3, DocumentStatus::ACTUAL, ratings_3);
-        const auto found_docs = server.FindTopDocuments("cat fox dog"s);
-        ASSERT(found_docs.size() == 3);
-        ASSERT(found_docs[0].id == doc_id_1);
-        //6. к тому же у вас в этом блоке в каком порядке добавлены документы в сервер, в таком и выдаются - не видна сортировка!
-        ASSERT(found_docs[1].id == doc_id_2);
-        ASSERT(found_docs[2].id == doc_id_3);
-    }*/
-
 
 }
-/*7. не хватает глагола в наименовании теста. Что за действие вы проверяете?!___Исправила*/
-//Было void TestRating() 
-//Стало
-void TestRatingCalculation()
+
+void CalculateTestRating()
 {
 
     {
@@ -636,12 +560,10 @@ void TestRatingCalculation()
         server.AddDocument(doc_id_1, content_1, DocumentStatus::ACTUAL, ratings_1);
         const auto found_docs = server.FindTopDocuments("cat fox dog"s);
         ASSERT(!found_docs.empty());
-        ASSERT(found_docs[0].rating == round ((1 + 2 + 3 + 0.0) / 3)); /* 8. отлично, но по стилю совет - всегда ставьте вокруг бинарных операций по одному пробелу!___Добавила пробелы*/
+        ASSERT(found_docs[0].rating == round ((1 + 2 + 3 + 0.0) / 3)); 
     }
 }
-/*9. не хватает глагола. Лучше "тест поиска документов по предикату"!!!___Исправила*/
-// Было void TestPredicate() 
-// Стало
+
 void TestSearchDocumentsByPredicate ()
 {
 
@@ -650,27 +572,12 @@ void TestSearchDocumentsByPredicate ()
     const vector<int> ratings = { 1, 2, 3 };
     const DocumentStatus document_status = DocumentStatus::ACTUAL;
 
-   /* {
-        SearchServer server;
-        server.AddDocument(doc_id, content, document_status, ratings);
-        const auto found_docs = server.FindTopDocuments("cat fox dog"s, DocumentStatus::ACTUAL);
-        ASSERT(!found_docs.empty());
-        ASSERT(found_docs[0].id == doc_id);
-    }
-
-    {
-        SearchServer server;
-        server.AddDocument(doc_id, content, DocumentStatus::BANNED, ratings);
-        const auto found_docs = server.FindTopDocuments("cat fox dog"s, DocumentStatus::ACTUAL);
-        ASSERT(found_docs.empty());
-    } убрала 2 блока*/
-    /*10. первый два блока относятся скорее к поиску по статусу!!!___Исправила*/
     {
         SearchServer server;
         server.AddDocument(doc_id, content, document_status, ratings);
         const auto found_docs = server.FindTopDocuments("cat fox dog"s, []([[maybe_unused]] int document_id, DocumentStatus status, int rating)
             { 
-            document_id += 1; /*11. [[maybe_unused]]___Исправила*/
+            ++document_id;
             if (status == DocumentStatus::ACTUAL) { document_id += 1; };
             return rating > 1;
             });
@@ -682,7 +589,7 @@ void TestSearchDocumentsByPredicate ()
         SearchServer server;
         server.AddDocument(doc_id, content, document_status, ratings);
         const auto found_docs = server.FindTopDocuments("cat fox dog"s, []([[maybe_unused]] int document_id, DocumentStatus status, int rating) {
-            document_id += 1; /*12.[[maybe_unused]]___Исправила */
+            ++document_id;
             if (status == DocumentStatus::ACTUAL) { document_id += 1; };
             return rating > 3;
             });
@@ -690,9 +597,7 @@ void TestSearchDocumentsByPredicate ()
     }
 
 }
-/*13. "тест поиска документов по статусу"!___Исправила*/
-// Было void TestStatus() 
-// Стало
+
 void TestSearchDocumentsByStatus ()
 {
 
@@ -786,11 +691,10 @@ void TestRelevanceAccuracy() {
 void TestSearchServer() {
     RUN_TEST(TestExcludeStopWordsFromAddedDocumentContent);
     RUN_TEST(TestDocumentsAdding);
-    //RUN_TEST(TestStopWordsSupporting);
     RUN_TEST(TestMinusWordsSupporting);
     RUN_TEST(TestMatching);
     RUN_TEST(TestRelevanceSorting);
-    RUN_TEST(TestRatingCalculation);
+    RUN_TEST(CalculateTestRating);
     RUN_TEST(TestSearchDocumentsByPredicate);
     RUN_TEST(TestSearchDocumentsByStatus);
     RUN_TEST(TestRelevanceAccuracy);
