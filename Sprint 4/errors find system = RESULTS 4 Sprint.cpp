@@ -406,7 +406,7 @@ void PrintDocument(const Document& document)
 {
     cout << "{ "s
         << "document_id = "s << document.id << ", "s
-        << "relevance = "s << document.relevance << ", "s
+        << "relevance = "s << round (document.relevance*1000)/1000 << ", "s
         << "rating = "s << document.rating << " }"s << endl;
 }
 
