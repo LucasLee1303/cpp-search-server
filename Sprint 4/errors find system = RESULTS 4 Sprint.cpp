@@ -71,6 +71,8 @@ public:
 
 using namespace std;
 
+static constexpr double  SORT_ACCURACY = 1e-6;
+
 const int MAX_RESULT_DOCUMENT_COUNT = 5;
 
 string ReadLine() {
@@ -185,7 +187,7 @@ public:
         sort(matched_documents.begin(), matched_documents.end(),
             [](const Document& lhs, const Document& rhs) 
             {
-                if (abs(lhs.relevance - rhs.relevance) < 1e-6) return lhs.rating > rhs.rating;
+                if (abs(lhs.relevance - rhs.relevance) < SORT_ACCURACY) return lhs.rating > rhs.rating;
                 else 
                     return lhs.relevance > rhs.relevance;
             });
