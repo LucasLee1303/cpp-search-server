@@ -68,6 +68,7 @@ public:
 #include <utility>
 #include <vector>
 #include <optional>
+#include <numeric>
 
 using namespace std;
 
@@ -296,12 +297,7 @@ private:
     {
         if (ratings.empty()) return 0;
 
-        int rating_sum = 0;
-        for (const int rating : ratings) 
-        {
-            rating_sum += rating;
-        }
-        return rating_sum / static_cast<int>(ratings.size());
+        return accumulate(ratings.begin(), ratings.end(), 0) / static_cast<int>(ratings.size());
     }
 
     struct QueryWord 
