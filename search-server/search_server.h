@@ -58,7 +58,7 @@ private:
     std::map<std::string, std::map<int, double>> word_to_document_freqs_;
     std::map<int, std::map<std::string, double>> get_word_freqs_; 
     std::map<int, DocumentData> documents_;
-    std::multiset<int> document_ids_; 
+    std::set<int> document_ids_; ///забыла убрать, экспериментировала
 
     bool IsStopWord(const std::string& word) const;
 
