@@ -77,9 +77,12 @@ std::tuple<std::vector<std::string>, DocumentStatus> SearchServer::MatchDocument
  }
 
 void SearchServer::RemoveDocument(int document_id) {
+    for (auto [word, freq] : get_word_freqs_.at(document_id)) {
+        word_to_document_freqs_.at(word).erase(document_id);
+    }
     get_word_freqs_.erase(document_id);
     documents_.erase(document_id);
-    document_ids_.erase(document_id);
+    document_ids_.erase(document_id);   
 }
 
 bool SearchServer::IsStopWord(const std::string& word) const {
