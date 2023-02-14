@@ -36,11 +36,3 @@ int main() {
     }
     return 0;
 } 
-
-/*
-int main() {
-    TestRunner tr;
-    RUN_TEST(tr, TestConcurrentUpdate);
-    RUN_TEST(tr, TestReadAndWrite);
-    RUN_TEST(tr, TestSpeedup);
-}*/
