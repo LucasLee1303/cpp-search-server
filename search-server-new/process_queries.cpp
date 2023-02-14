@@ -5,12 +5,8 @@ std::vector<std::vector<Document>> ProcessQueries(
 	const std::vector<std::string>& queries) {
 	
     std::vector<std::vector<Document>> docs_lists(queries.size());
-	std::transform(std::execution::par,
-				   queries.begin(), queries.end(),
-				   docs_lists.begin(), [&search_server](auto& query) { 
-											 return search_server.FindTopDocuments(query); 
-		});
-
+	std::transform(std::execution::par, queries.begin(), queries.end(),docs_lists.begin(), 
+		       [&search_server](auto& query) {return search_server.FindTopDocuments(query); });
 	return docs_lists;
 }
 
